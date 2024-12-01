@@ -1,17 +1,26 @@
 .dinosaur {
-  display: block;
+    display: block;
 }
 
 .cont {
-  display: flex;
-  /* justify-content: center; */
-  align-items: center;
-  border: 1px solid black;
-  padding: 10px;
-  margin-bottom: 5px;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 5px;
 }
 
 .cont:hover {
-  background-color: antiquewhite;
-  cursor: pointer;
+    background-color: antiquewhite;
+    cursor: pointer;
+}
+
+.mainCont {
+    display: flex;
+}
+
+.sidebar {
+    background-color: aquamarine;
+    padding: 20px;
 }
