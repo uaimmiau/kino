@@ -4,6 +4,7 @@ import { Dino } from "../types.ts";
 
 export default function Index() {
   const [dinosaurs, setDinosaurs] = useState<Dino[]>([]);
+  let it: number = 1;
 
   useEffect(() => {
     (async () => {
@@ -19,13 +20,16 @@ export default function Index() {
       <p>Click on a dinosour below to learn more</p>
       {dinosaurs.map((dinosaur: Dino) => {
         return (
-          <Link
-            to={`/${dinosaur.name.toLocaleLowerCase()}`}
-            key={dinosaur.name}
-            className="dinosaur"
-          >
-            {dinosaur.name}
-          </Link>
+          <div className="cont">
+            <p>{it++}. </p>
+            <Link
+              to={`/${dinosaur.name.toLocaleLowerCase()}`}
+              key={dinosaur.name}
+              className="dinosaur"
+            >
+              {dinosaur.name}
+            </Link>
+          </div>
         );
       })}
     </main>
