@@ -14,7 +14,7 @@ export default function Sidebar() {
         <div className="sidebar">
             {sideBarItems.map((item: SidebarItem) => {
                 return (
-                    <div>
+                    <div key={item.name}>
                         <Link to={`${item.path}`}>{item.name}</Link>
                     </div>
                 );

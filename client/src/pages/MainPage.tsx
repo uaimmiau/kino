@@ -5,7 +5,7 @@ export default function MainPage() {
     return (
         <main>
             <div className="header">
-                <img src="../../public/react.svg" alt="logo" />
+                <img src="/react.svg" alt="logo" />
                 <div>
                     <label htmlFor="location">Wybierz lokacje:</label>
                     <select name="location">
