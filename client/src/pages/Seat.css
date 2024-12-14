@@ -1,0 +1,31 @@
+.roomRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.seatItem {
+    /* padding: px; */
+    margin: 2px;
+    width: 30px;
+    height: 25px;
+    border: 1px solid black;
+}
+
+.seatItem:hover {
+    cursor: pointer;
+}
+
+.rowLabel {
+    width: 30px;
+    height: 25px;
+}
+
+.seat {
+    background-color: rgb(113, 224, 113);
+}
+.vip {
+    background-color: rgb(133, 89, 133);
+}
+.empty {
+    background-color: rgb(141, 140, 140);
+}

@@ -1,9 +1,22 @@
-export default function Seat({ x, y }: { x: number; y: number }) {
+import { SeatType } from "../types.ts";
+import "./Seat.css";
+export default function Seat({
+    x,
+    type,
+    onSeatClick,
+}: {
+    x: number;
+    type: SeatType;
+    onSeatClick: any;
+}) {
     return (
-        <div className="seat">
-            <p>
-                {x} {y}
-            </p>
+        <div
+            className={`seatItem ${type == SeatType.Seat ? "seat" : ""} ${
+                type == SeatType.Vip ? "vip" : ""
+            } ${type == SeatType.Empty ? "empty" : ""}`}
+            onClick={onSeatClick}
+        >
+            {x + 1}
         </div>
     );
 }

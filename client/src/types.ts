@@ -5,7 +5,7 @@ export type SidebarItem = {
     path: string;
 };
 
-enum SeatType {
+export enum SeatType {
     Seat = 0,
     Vip,
     Empty,
@@ -15,6 +15,5 @@ export type SeatItem = {
     x: number;
     y: number;
     type: SeatType;
-    row: number;
     number: number;
 };

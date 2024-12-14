@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar.tsx";
-import { SeatItem } from "../types.ts";
+import { SeatItem, SeatType } from "../types.ts";
 import Seat from "./Seat.tsx";
 
 export default function RoomMgmt() {
@@ -10,6 +10,30 @@ export default function RoomMgmt() {
         width: 0,
         height: 0,
     });
+
+    function handleClick(x: number, y: number) {
+        let newType: SeatType;
+        switch (seats[x][y].type) {
+            case SeatType.Seat:
+                newType = SeatType.Empty;
+                break;
+            case SeatType.Empty:
+                newType = SeatType.Vip;
+                break;
+            default:
+                newType = SeatType.Seat;
+                break;
+        }
+        setSeats(
+            seats.map((row: SeatItem[]) => {
+                return row.map((seat: SeatItem) => {
+                    return seat.x === x && seat.y === y
+                        ? { ...seat, type: newType }
+                        : { ...seat };
+                });
+            })
+        );
+    }
 
     return (
         <div className="mainCont">
@@ -51,7 +75,20 @@ export default function RoomMgmt() {
                             const width: number = parseInt(form.width);
                             if (height > 0 && width > 0) {
                                 setSeats(
-                                    Array(height).fill(Array(width).fill({}))
+                                    Array(height)
+                                        .fill(0)
+                                        .map((_, i) => {
+                                            return Array(width)
+                                                .fill(0)
+                                                .map((_, j) => {
+                                                    return {
+                                                        x: i,
+                                                        y: j,
+                                                        type: SeatType.Seat,
+                                                        number: j + 1,
+                                                    };
+                                                });
+                                        })
                                 );
                             }
                         }}
@@ -61,24 +98,22 @@ export default function RoomMgmt() {
                     {seats.map((row: SeatItem[], i: number) => {
                         return (
                             <div className="roomRow">
+                                <div className="rowLabel">{i + 1}:</div>
                                 {row.map((_, j) => {
-                                    return <Seat x={j} y={i} key={i + j} />;
+                                    return (
+                                        <Seat
+                                            x={j}
+                                            key={i + j}
+                                            type={seats[i][j].type}
+                                            onSeatClick={() =>
+                                                handleClick(i, j)
+                                            }
+                                        />
+                                    );
                                 })}
                             </div>
                         );
                     })}
-
-                    {/* {[...Array(parseInt(form.height))].map((_, i) => {
-                        return (
-                            <div className="roomRow">
-                                {[...Array(parseInt(form.width))].map(
-                                    (_, j) => {
-                                        return <Seat x={j} y={i} />;
-                                    }
-                                )}
-                            </div>
-                        );
-                    })} */}
                 </div>
             </div>
         </div>
