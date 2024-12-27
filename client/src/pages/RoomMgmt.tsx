@@ -7,6 +7,7 @@ export default function RoomMgmt() {
     const [seats, setSeats] = useState(Array(0).fill(Array(0).fill({})));
 
     const [form, setForm] = useState({
+        name: "",
         width: 0,
         height: 0,
     });
@@ -40,6 +41,19 @@ export default function RoomMgmt() {
             <Sidebar />
             <div id="content">
                 <form>
+                    <label htmlFor="name">Nazwa sali:</label>
+                    <input
+                        type="text"
+                        name="name"
+                        value={form.name}
+                        onChange={(e) => {
+                            setForm({
+                                ...form,
+                                name: e.target.value,
+                            });
+                        }}
+                    />
+                    <br />
                     <label htmlFor="width">Szerokość sali:</label>
                     <input
                         name="width"
@@ -115,6 +129,7 @@ export default function RoomMgmt() {
                         );
                     })}
                 </div>
+                <button type="button">Zapisz</button>
             </div>
         </div>
     );

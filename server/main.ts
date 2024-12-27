@@ -3,10 +3,15 @@ import { Router } from "jsr:@oak/oak/router";
 import { oakCors } from "@tajpouria/cors";
 import routeStaticFilesFrom from "./util/routeStaticFilesFrom.ts";
 import data from "./api/data.json" with {type: "json"};
+import { Pool } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 
 export const app = new Application();
 const router = new Router();
+const databaseUrl = Deno.env.get("DATABASE_URL");
+// const pool = new Pool(databaseUrl, 3, true);
+// const connection = await pool.connect();
 
+// console.log(databaseUrl)
 
 router.get("/api/dinosaurs", (context) => {
   context.response.body = data;
