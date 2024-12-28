@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar.tsx";
 import { SeatItem, SeatType } from "../types.ts";
 import Seat from "./Seat.tsx";
@@ -11,6 +11,23 @@ export default function RoomMgmt() {
         width: 0,
         height: 0,
     });
+
+    function saveRoom() {
+        // useEffect(() => {
+        (async () => {
+            console.log(JSON.stringify(seats));
+            const response = await fetch(`/api/save_room`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(seats),
+            });
+            console.log(response);
+        })();
+        // }, []);
+    }
 
     function handleClick(x: number, y: number) {
         let newType: SeatType;
@@ -129,7 +146,9 @@ export default function RoomMgmt() {
                         );
                     })}
                 </div>
-                <button type="button">Zapisz</button>
+                <button type="button" onClick={saveRoom}>
+                    Zapisz
+                </button>
             </div>
         </div>
     );
