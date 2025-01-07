@@ -22,7 +22,10 @@ export default function RoomMgmt() {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(seats),
+                body: JSON.stringify({
+                    roomName: form.name,
+                    seatList: seats,
+                }),
             });
             console.log(response);
         })();

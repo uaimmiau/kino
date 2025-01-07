@@ -25,15 +25,25 @@ const pool = new Pool({
         enabled: true,
     },
   }, 5, true);
-const connection = await pool.connect();
-const res = await connection.queryObject`
-  SELECT * FROM kino.room
-`
-// console.log(res)
-
+  // const res = await connection.queryObject`
+  //   SELECT * FROM kino.room
+  // `
+  // console.log(res)
+  
 router.post("/api/save_room", async (ctx) => {
-    const reqBody = await  ctx.request.body.json();
+    const reqBody = await ctx.request.body.json();
+    const connection = await pool.connect();
     console.log(reqBody);
+    try{
+        const res = await connection.queryObject`
+            INSERT INTO kino.room (number, sponsor, location_id)
+            VALUES (1, ${reqBody.roomName}, 1);
+        `;
+        console.log(res);
+    } finally {
+        connection.release();
+    }
+
     ctx.response.body = "Duppa";
 });
 
