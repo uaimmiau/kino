@@ -5,6 +5,7 @@ import routeStaticFilesFrom from "./util/routeStaticFilesFrom.ts";
 import data from "./api/data.json" with {type: "json"};
 import { Pool } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 import "jsr:@std/dotenv/load";
+import Validator from "./util/validator.ts";
 
 export const app = new Application();
 const router = new Router();
@@ -25,26 +26,31 @@ const pool = new Pool({
         enabled: true,
     },
   }, 5, true);
-  // const res = await connection.queryObject`
-  //   SELECT * FROM kino.room
-  // `
-  // console.log(res)
-  
+
 router.post("/api/save_room", async (ctx) => {
+    console.log("miau");
     const reqBody = await ctx.request.body.json();
     const connection = await pool.connect();
-    console.log(reqBody);
-    try{
-        const res = await connection.queryObject`
-            INSERT INTO kino.room (number, sponsor, location_id)
-            VALUES (1, ${reqBody.roomName}, 1);
-        `;
-        console.log(res);
-    } finally {
-        connection.release();
+    let isError: boolean = false;
+    let errorMsg: string = "";
+    [isError, errorMsg] = Validator.validateRoom(reqBody);
+    if(isError){
+        ctx.response.body = {msg: errorMsg};
+        ctx.response.status = 400;
+    } else {
+        try{
+            const res = await connection.queryObject`
+                INSERT INTO kino.room (number, sponsor, technology)
+                VALUES (${reqBody.roomNumber}, ${reqBody.roomSponsor}, ${reqBody.roomTechnology});
+            `;
+        } catch(err){
+            console.log(err);
+        } finally {
+            connection.release();
+        }
+    
+        ctx.response.body = {msg: "Dodano"};
     }
-
-    ctx.response.body = "Duppa";
 });
 
 router.get("/api/dinosaurs", (context) => {

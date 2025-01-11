@@ -2,34 +2,66 @@ import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar.tsx";
 import { SeatItem, SeatType } from "../types.ts";
 import Seat from "./Seat.tsx";
+import Validator from "./Validator.tsx";
 
 export default function RoomMgmt() {
     const [seats, setSeats] = useState(Array(0).fill(Array(0).fill({})));
 
     const [form, setForm] = useState({
-        name: "",
         width: 0,
         height: 0,
     });
 
     function saveRoom() {
-        // useEffect(() => {
-        (async () => {
-            console.log(JSON.stringify(seats));
-            const response = await fetch(`/api/save_room`, {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    roomName: form.name,
-                    seatList: seats,
-                }),
-            });
-            console.log(response);
-        })();
-        // }, []);
+        const roomSponsor: string = (
+            document.getElementById("roomSponsor") as HTMLInputElement
+        ).value;
+        const roomNumber: string = (
+            document.getElementById("roomNumber") as HTMLInputElement
+        ).value;
+        const roomTechnology: string = (
+            document.getElementById("roomTech") as HTMLInputElement
+        ).value;
+        if (
+            Validator.validateStringNotEmpty("Sponsor", roomSponsor, true) &&
+            Validator.validateNumber(
+                "Podaj poprawny number dla sali",
+                roomNumber,
+                true
+            ) &&
+            Validator.validateStringNotEmpty(
+                "Technologia",
+                roomTechnology,
+                true
+            ) &&
+            Validator.validateDefined(
+                "Podaj poprawne wymiary sali i wygeneruj widok",
+                seats,
+                true
+            )
+        ) {
+            (async () => {
+                const response = await fetch(`/api/save_room`, {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        roomSponsor: roomSponsor,
+                        roomNumber: roomNumber,
+                        roomTechnology: roomTechnology,
+                        seatList: seats,
+                    }),
+                })
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        globalThis.alert(data.msg);
+                    });
+            })();
+        }
     }
 
     function handleClick(x: number, y: number) {
@@ -61,18 +93,14 @@ export default function RoomMgmt() {
             <Sidebar />
             <div id="content">
                 <form>
-                    <label htmlFor="name">Nazwa sali:</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={form.name}
-                        onChange={(e) => {
-                            setForm({
-                                ...form,
-                                name: e.target.value,
-                            });
-                        }}
-                    />
+                    <label htmlFor="sponsor">Sponsor sali:</label>
+                    <input type="text" name="sponsor" id="roomSponsor" />
+                    <br />
+                    <label htmlFor="number">Numer sali:</label>
+                    <input type="text" name="number" id="roomNumber" />
+                    <br />
+                    <label htmlFor="tech">Technologia:</label>
+                    <input type="text" name="tech" id="roomTech" />
                     <br />
                     <label htmlFor="width">Szerokość sali:</label>
                     <input
@@ -131,7 +159,7 @@ export default function RoomMgmt() {
                 <div id="roomCont">
                     {seats.map((row: SeatItem[], i: number) => {
                         return (
-                            <div className="roomRow">
+                            <div className="roomRow" key={"rowKey" + i}>
                                 <div className="rowLabel">{i + 1}:</div>
                                 {row.map((_, j) => {
                                     return (
