@@ -40,16 +40,17 @@ router.post("/api/save_room", async (ctx) => {
     } else {
         try{
             const res = await connection.queryObject`
-                INSERT INTO kino.room (number, sponsor, technology)
-                VALUES (${reqBody.roomNumber}, ${reqBody.roomSponsor}, ${reqBody.roomTechnology});
+            INSERT INTO kino.room (number, sponsor, technology)
+            VALUES (${reqBody.roomNumber}, ${reqBody.roomSponsor}, ${reqBody.roomTechnology});
             `;
+            ctx.response.body = {msg: "Dodano"};
         } catch(err){
             console.log(err);
+            ctx.response.status = 500;
+            ctx.response.body = {msg: "Wewnętrzny błąd serwera"};
         } finally {
             connection.release();
         }
-    
-        ctx.response.body = {msg: "Dodano"};
     }
 });
 
