@@ -28,7 +28,6 @@ const pool = new Pool({
   }, 5, true);
 
 router.post("/api/save_room", async (ctx) => {
-    console.log("miau");
     const reqBody = await ctx.request.body.json();
     const connection = await pool.connect();
     let isError: boolean = false;
@@ -39,10 +38,36 @@ router.post("/api/save_room", async (ctx) => {
         ctx.response.status = 400;
     } else {
         try{
-            const res = await connection.queryObject`
-            INSERT INTO kino.room (number, sponsor, technology)
-            VALUES (${reqBody.roomNumber}, ${reqBody.roomSponsor}, ${reqBody.roomTechnology});
+            const transaction = connection.createTransaction("abortable");
+            await transaction.begin();
+
+            const res = await transaction.queryArray`
+                INSERT INTO kino.room (number, sponsor, technology)
+                VALUES (${reqBody.roomNumber}, ${reqBody.roomSponsor}, ${reqBody.roomTechnology})
+                RETURNING id;
             `;
+
+            const roomID = res.rows[0][0];
+
+            console.log(reqBody);
+            // {
+            //     roomSponsor: "miau3",
+            //     roomNumber: "5",
+            //     roomTechnology: "3d",
+            //     seatList: [
+            //     [
+            //         { x: 0, y: 0, type: 0, number: 1 },
+            //         { x: 1, y: 0, type: 2, number: 1 }
+            //     ],
+            //     [
+            //         { x: 0, y: 1, type: 1, number: 1 },
+            //         { x: 1, y: 1, type: 0, number: 2 }
+            //     ]
+            //     ]
+            // }
+
+            await transaction.commit();
+
             ctx.response.body = {msg: "Dodano"};
         } catch(err){
             console.log(err);
@@ -52,6 +77,7 @@ router.post("/api/save_room", async (ctx) => {
             connection.release();
         }
     }
+
 });
 
 router.get("/api/dinosaurs", (context) => {

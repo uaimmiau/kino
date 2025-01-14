@@ -12,6 +12,18 @@ export default function RoomMgmt() {
         height: 0,
     });
 
+    function recountSeats(seats: any) {
+        //Enumeration: (kinda thought I'd need it)
+        for (const [_, row] of seats.entries()) {
+            let count: number = 0;
+            for (const [_, seat] of row.entries()) {
+                if (seat.type != SeatType.Empty) count++;
+                seat.number = count;
+            }
+        }
+        return seats;
+    }
+
     function saveRoom() {
         const roomSponsor: string = (
             document.getElementById("roomSponsor") as HTMLInputElement
@@ -51,7 +63,7 @@ export default function RoomMgmt() {
                         roomSponsor: roomSponsor,
                         roomNumber: roomNumber,
                         roomTechnology: roomTechnology,
-                        seatList: seats,
+                        seatList: recountSeats(seats),
                     }),
                 })
                     .then((response) => {
@@ -64,9 +76,9 @@ export default function RoomMgmt() {
         }
     }
 
-    function handleClick(x: number, y: number) {
+    function handleClick(i: number, j: number) {
         let newType: SeatType;
-        switch (seats[x][y].type) {
+        switch (seats[i][j].type) {
             case SeatType.Seat:
                 newType = SeatType.Empty;
                 break;
@@ -80,7 +92,7 @@ export default function RoomMgmt() {
         setSeats(
             seats.map((row: SeatItem[]) => {
                 return row.map((seat: SeatItem) => {
-                    return seat.x === x && seat.y === y
+                    return seat.y === i && seat.x === j
                         ? { ...seat, type: newType }
                         : { ...seat };
                 });
@@ -144,8 +156,8 @@ export default function RoomMgmt() {
                                                 .fill(0)
                                                 .map((_, j) => {
                                                     return {
-                                                        x: i,
-                                                        y: j,
+                                                        x: j,
+                                                        y: i,
                                                         type: SeatType.Seat,
                                                         number: j + 1,
                                                     };
