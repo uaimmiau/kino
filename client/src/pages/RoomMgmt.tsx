@@ -3,6 +3,8 @@ import Sidebar from "./Sidebar.tsx";
 import { SeatItem, SeatType } from "../types.ts";
 import Seat from "./Seat.tsx";
 import Validator from "./Validator.tsx";
+import Toast from "./Toast.tsx";
+import Util from "./Util.tsx";
 
 export default function RoomMgmt() {
     const [seats, setSeats] = useState(Array(0).fill(Array(0).fill({})));
@@ -70,7 +72,7 @@ export default function RoomMgmt() {
                         return response.json();
                     })
                     .then((data) => {
-                        globalThis.alert(data.msg);
+                        Util.showToast(data.msg);
                     });
             })();
         }
@@ -193,6 +195,7 @@ export default function RoomMgmt() {
                     Zapisz
                 </button>
             </div>
+            <Toast></Toast>
         </div>
     );
 }

@@ -49,22 +49,7 @@ router.post("/api/save_room", async (ctx) => {
 
             const roomID = res.rows[0][0];
 
-            console.log(reqBody);
-            // {
-            //     roomSponsor: "miau3",
-            //     roomNumber: "5",
-            //     roomTechnology: "3d",
-            //     seatList: [
-            //     [
-            //         { x: 0, y: 0, type: 0, number: 1 },
-            //         { x: 1, y: 0, type: 2, number: 1 }
-            //     ],
-            //     [
-            //         { x: 0, y: 1, type: 1, number: 1 },
-            //         { x: 1, y: 1, type: 0, number: 2 }
-            //     ]
-            //     ]
-            // }
+            await transaction.queryArray`call insert_seats_json(${roomID}, ${JSON.stringify(reqBody.seatList.flat())});`;
 
             await transaction.commit();
 
