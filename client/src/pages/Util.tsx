@@ -1,3 +1,6 @@
+import { SeatItem } from "../types.ts";
+import Seat from "./Seat.tsx";
+
 export default class Util {
     static showToast(msg: string) {
         console.log(msg);
@@ -10,5 +13,38 @@ export default class Util {
                 toast.className = toast.className.replace("show", "");
             }, 3000);
         }
+    }
+
+    static renderSeats(seats: SeatItem[]) {
+        // Quite frankly i don't entirely grasp the code below
+        // it maps a 1d array of seats into 2d one grouped by row tho
+        const seat2D = Object.values(
+            seats.reduce((acc, seat) => {
+                (acc[seat.row] ||= []).push(seat);
+                return acc;
+            }, {} as Record<number, (typeof seats)[0][]>)
+        );
+
+        return (
+            <div id="seatCont">
+                {seat2D.map((row: SeatItem[], i: number) => {
+                    return (
+                        <div className="roomRow" key={"rowKey" + i}>
+                            <div className="rowLabel">{row[0].row}:</div>
+                            {row.map((seat, j) => {
+                                return (
+                                    <Seat
+                                        x={seat.number}
+                                        key={i + j}
+                                        type={seat.type}
+                                        onSeatClick={() => {}}
+                                    />
+                                );
+                            })}
+                        </div>
+                    );
+                })}
+            </div>
+        );
     }
 }

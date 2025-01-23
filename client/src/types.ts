@@ -16,4 +16,12 @@ export type SeatItem = {
     y: number;
     type: SeatType;
     number: number;
+    row: number;
+};
+
+export type Room = {
+    id: number;
+    number: number;
+    sponsor: string;
+    technology: string;
 };

@@ -5,8 +5,9 @@ export default function Sidebar() {
     const sideBarItems = [
         { name: "Profil", path: "/account" },
         { name: "Rezerwacje", path: "/account/reservations" },
-        { name: "Zarządzanie rolami", path: "/admin/role-mgmt" },
-        { name: "Zarządzanie salami", path: "/admin/room-mgmt" },
+        // { name: "Zarządzanie rolami", path: "/admin/role-mgmt" },
+        { name: "Dodawanie sal", path: "/admin/room-mgmt" },
+        { name: "Przegląd sal", path: "/admin/rooms" },
         { name: "Zarządzanie repertuarem", path: "/admin/screening-mgmt" },
     ] as SidebarItem[];
 

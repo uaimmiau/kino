@@ -2,7 +2,6 @@ import { Application } from "jsr:@oak/oak/application";
 import { Router } from "jsr:@oak/oak/router";
 import { oakCors } from "@tajpouria/cors";
 import routeStaticFilesFrom from "./util/routeStaticFilesFrom.ts";
-import data from "./api/data.json" with {type: "json"};
 import { Pool } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 import "jsr:@std/dotenv/load";
 import Validator from "./util/validator.ts";
@@ -11,21 +10,23 @@ export const app = new Application();
 const router = new Router();
 
 const pass = Deno.env.get("DB_PASS");
-const pool = new Pool({
-    user: "postgres",
-    database: "postgres",
-    hostname: "solely-evolved-antlion.data-1.use1.tembo.io",
-    port: 5432,
-    password: pass,
-    tls: {
-        caCertificates: [
-            await Deno.readTextFile(
-              new URL("./ca.crt", import.meta.url),
-            ),
-          ],
-        enabled: true,
+const pool = new Pool(
+    {
+        user: "postgres",
+        database: "postgres",
+        hostname: "solely-evolved-antlion.data-1.use1.tembo.io",
+        port: 5432,
+        password: pass,
+        tls: {
+            caCertificates: [
+                await Deno.readTextFile(new URL("./ca.crt", import.meta.url)),
+            ],
+            enabled: true,
+        },
     },
-  }, 5, true);
+    5,
+    true
+);
 
 router.post("/api/save_room", async (ctx) => {
     const reqBody = await ctx.request.body.json();
@@ -33,11 +34,11 @@ router.post("/api/save_room", async (ctx) => {
     let isError: boolean = false;
     let errorMsg: string = "";
     [isError, errorMsg] = Validator.validateRoom(reqBody);
-    if(isError){
-        ctx.response.body = {msg: errorMsg};
+    if (isError) {
+        ctx.response.body = { msg: errorMsg };
         ctx.response.status = 400;
     } else {
-        try{
+        try {
             const transaction = connection.createTransaction("abortable");
             await transaction.begin();
 
@@ -49,40 +50,62 @@ router.post("/api/save_room", async (ctx) => {
 
             const roomID = res.rows[0][0];
 
-            await transaction.queryArray`call insert_seats_json(${roomID}, ${JSON.stringify(reqBody.seatList.flat())});`;
+            await transaction.queryArray`CALL insert_seats_json(${roomID}, ${JSON.stringify(
+                reqBody.seatList.flat()
+            )});`;
 
             await transaction.commit();
 
-            ctx.response.body = {msg: "Dodano"};
-        } catch(err){
+            ctx.response.body = { msg: "Dodano" };
+        } catch (err) {
             console.log(err);
             ctx.response.status = 500;
-            ctx.response.body = {msg: "Wewnętrzny błąd serwera"};
+            ctx.response.body = { msg: "Wewnętrzny błąd serwera" };
         } finally {
             connection.release();
         }
     }
-
 });
 
-router.get("/api/dinosaurs", (context) => {
-    context.response.body = data;
-});
-
-router.get("/api/dinosaurs/:dinosaur", (context) => {
-    if(!context?.params?.dinosaur){
-        context.response.body = "No dinosaur name provided.";
+router.get("/api/rooms", async (ctx) => {
+    const connection = await pool.connect();
+    try {
+        const res = await connection.queryArray`
+        SELECT id, number, sponsor FROM kino.room;`;
+        ctx.response.body = res.rows;
+    } catch (err) {
+        console.log(err);
+        ctx.response.status = 500;
+        ctx.response.body = { msg: "Wewnętrzny błąd serwera" };
+    } finally {
+        connection.release();
     }
-    
-    const dinosaur = data.find((item) => 
-        item.name.toLowerCase() === context.params.dinosaur.toLowerCase()
-)
-
-// console.log(dinosaur);
-
-context.response.body = dinosaur ?? "No dinosaur found.";
 });
 
+router.get("/api/room/:id", async (ctx) => {
+    const id = ctx?.params?.id;
+    const connection = await pool.connect();
+    try {
+        const room = await connection.queryObject`
+            SELECT number, sponsor, technology FROM kino.room WHERE id = ${id};`;
+        const seats = await connection.queryArray`
+            SELECT dim_x, dim_y, row, number, seat_type
+            FROM kino.seat
+            WHERE room_id = ${id}
+            ORDER BY row, number
+        `;
+        ctx.response.body = {
+            room: room.rows,
+            seats: seats.rows,
+        };
+    } catch (err) {
+        console.log(err);
+        ctx.response.status = 500;
+        ctx.response.body = { msg: "Wewnętrzny błąd serwera" };
+    } finally {
+        connection.release();
+    }
+});
 
 app.use(oakCors());
 app.use(router.routes());

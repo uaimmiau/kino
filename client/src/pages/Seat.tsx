@@ -1,5 +1,5 @@
 import { SeatType } from "../types.ts";
-import "./Seat.css";
+import "../css/Seat.css";
 export default function Seat({
     x,
     type,
