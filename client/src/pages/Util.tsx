@@ -3,7 +3,6 @@ import Seat from "./Seat.tsx";
 
 export default class Util {
     static showToast(msg: string) {
-        console.log(msg);
         const toast = document.getElementById("toastCont");
         if (!msg) return;
         if (toast) {

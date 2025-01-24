@@ -30,9 +30,9 @@ export default function RoomMgmt() {
         const roomSponsor: string = (
             document.getElementById("roomSponsor") as HTMLInputElement
         ).value;
-        const roomNumber: string = (
+        const roomNumber: number = +(
             document.getElementById("roomNumber") as HTMLInputElement
-        ).value;
+        ).value; // + unary operator to convert to number, disgusting, I know
         const roomTechnology: string = (
             document.getElementById("roomTech") as HTMLInputElement
         ).value;
@@ -55,7 +55,7 @@ export default function RoomMgmt() {
             )
         ) {
             (async () => {
-                const response = await fetch(`/api/save_room`, {
+                await fetch(`/api/save_room`, {
                     method: "POST",
                     headers: {
                         Accept: "application/json",
@@ -111,7 +111,12 @@ export default function RoomMgmt() {
                     <input type="text" name="sponsor" id="roomSponsor" />
                     <br />
                     <label htmlFor="number">Numer sali:</label>
-                    <input type="text" name="number" id="roomNumber" />
+                    <input
+                        type="number"
+                        name="number"
+                        id="roomNumber"
+                        defaultValue={0}
+                    />
                     <br />
                     <label htmlFor="tech">Technologia:</label>
                     <input type="text" name="tech" id="roomTech" />
@@ -119,7 +124,8 @@ export default function RoomMgmt() {
                     <label htmlFor="width">Szerokość sali:</label>
                     <input
                         name="width"
-                        type="text"
+                        type="number"
+                        min={0}
                         value={form.width}
                         onChange={(e) => {
                             setForm({
@@ -132,7 +138,8 @@ export default function RoomMgmt() {
                     <label htmlFor="height">Wysokość sali:</label>
                     <input
                         name="height"
-                        type="text"
+                        type="number"
+                        min={0}
                         value={form.height}
                         onChange={(e) => {
                             setForm({

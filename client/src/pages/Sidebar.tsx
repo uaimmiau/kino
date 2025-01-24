@@ -8,6 +8,7 @@ export default function Sidebar() {
         // { name: "Zarządzanie rolami", path: "/admin/role-mgmt" },
         { name: "Dodawanie sal", path: "/admin/room-mgmt" },
         { name: "Przegląd sal", path: "/admin/rooms" },
+        { name: "Dodawanie filmów", path: "/admin/movie-mgmt" },
         { name: "Zarządzanie repertuarem", path: "/admin/screening-mgmt" },
     ] as SidebarItem[];
 
