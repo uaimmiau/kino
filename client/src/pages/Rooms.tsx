@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Sidebar from "./Sidebar.tsx";
+import Sidebar from "./common/Sidebar.tsx";
 import { Room, SeatItem } from "../types.ts";
-import "../css/Rooms.css";
+import "../css/Common.css";
 import Util from "./Util.tsx";
 
 export default function Rooms() {
@@ -70,12 +70,12 @@ export default function Rooms() {
     return (
         <div className="mainCont">
             <Sidebar />
-            <div id="roomButtCont">
+            <div id="ButtCont">
                 {rooms.map((room: Room) => {
                     return (
                         <div
                             key={room.id}
-                            className="roomButton"
+                            className="Button"
                             onClick={() => loadRoom(room.id)}
                         >
                             <p>

@@ -25,3 +25,10 @@ export type Room = {
     sponsor: string;
     technology: string;
 };
+
+export type Movie = {
+    id: number;
+    title: string;
+    desc: string;
+    runtime: number;
+};

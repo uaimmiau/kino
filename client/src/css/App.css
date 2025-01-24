@@ -1,5 +1,8 @@
-.dinosaur {
-    display: block;
+main {
+    background-color: rgb(198, 207, 214);
+    box-sizing: border-box;
+    /* padding: 10px; */
+    width: 1000px;
 }
 
 .cont {

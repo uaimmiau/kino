@@ -16,7 +16,7 @@ export default function Seat({
             } ${type == SeatType.Empty ? "empty" : ""}`}
             onClick={onSeatClick}
         >
-            {x + 1}
+            {x}
         </div>
     );
 }

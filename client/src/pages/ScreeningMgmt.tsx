@@ -1,4 +1,4 @@
-import Sidebar from "./Sidebar.tsx";
+import Sidebar from "./common/Sidebar.tsx";
 
 export default function ScreeningMgmt() {
     return (

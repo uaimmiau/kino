@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Sidebar from "./Sidebar.tsx";
+import Sidebar from "./common/Sidebar.tsx";
 import Toast from "./Toast.tsx";
 import Util from "./Util.tsx";
-import Validator from "./Validator.tsx";
+import Validator from "./common/Validator.tsx";
 
 export default function MovieMgmt() {
     const [poster, setPoster] = useState<File | null>(null);

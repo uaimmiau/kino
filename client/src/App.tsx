@@ -8,6 +8,8 @@ import RoomMgmt from "./pages/RoomMgmt.tsx";
 import ScreeningMgmt from "./pages/ScreeningMgmt.tsx";
 import Rooms from "./pages/Rooms.tsx";
 import MovieMgmt from "./pages/MovieMgmt.tsx";
+import Movies from "./pages/Movies.tsx";
+import Register from "./pages/auth/Register.tsx";
 
 function App() {
     return (
@@ -23,10 +25,12 @@ function App() {
                 <Route path="/admin/room-mgmt" element={<RoomMgmt />} />
                 <Route path="/admin/rooms" element={<Rooms />} />
                 <Route path="/admin/movie-mgmt" element={<MovieMgmt />} />
+                <Route path="/admin/movies" element={<Movies />} />
                 <Route
                     path="/admin/screening-mgmt"
                     element={<ScreeningMgmt />}
                 />
+                <Route path="/register" element={<Register />} />
             </Routes>
         </BrowserRouter>
     );

@@ -1,6 +1,6 @@
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { SidebarItem } from "../types.ts";
-import Sidebar from "./Sidebar.tsx";
+import Sidebar from "./common/Sidebar.tsx";
 
 export default function Account() {
     return (

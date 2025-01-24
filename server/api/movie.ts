@@ -28,4 +28,47 @@ router.post("/api/save_movie", async (ctx) => {
     }
 });
 
+router.get("/api/movies", async (ctx) => {
+    const connection = await pool.connect();
+    try {
+        const res = await connection.queryArray`
+        SELECT id, title FROM kino.movie;`;
+        ctx.response.body = res.rows;
+    } catch (err) {
+        console.log(err);
+        ctx.response.status = 500;
+        ctx.response.body = { msg: "Wewnętrzny błąd serwera" };
+    } finally {
+        connection.release();
+    }
+});
+
+router.get("/api/movie/:id", async (ctx) => {
+    const id = ctx?.params?.id;
+    const connection = await pool.connect();
+    try {
+        const res = await connection.queryObject<{
+            title: string;
+            description: string;
+            runtime: string;
+            poster: Uint8Array;
+        }>`
+            SELECT title, description, runtime, poster FROM kino.movie WHERE id = ${id};`;
+        const movie = res.rows[0];
+
+        ctx.response.body = {
+            title: movie.title,
+            desc: movie.description,
+            runtime: movie.runtime,
+            poster: Array.from(movie.poster),
+        };
+    } catch (err) {
+        console.log(err);
+        ctx.response.status = 500;
+        ctx.response.body = { msg: "Wewnętrzny błąd serwera" };
+    } finally {
+        connection.release();
+    }
+});
+
 export default router;

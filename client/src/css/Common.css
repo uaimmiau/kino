@@ -1,0 +1,22 @@
+.Button {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.Button:hover {
+    background-color: rgb(187, 187, 187);
+    cursor: pointer;
+}
+
+#ButtCont {
+    height: 100vh;
+    overflow: auto;
+}
+
+.multiline {
+    white-space: pre-wrap;
+}
+
+#roomHeader > img {
+    width: 500px;
+}

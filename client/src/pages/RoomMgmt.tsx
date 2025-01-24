@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Sidebar from "./Sidebar.tsx";
+import Sidebar from "./common/Sidebar.tsx";
 import { SeatItem, SeatType } from "../types.ts";
 import Seat from "./Seat.tsx";
-import Validator from "./Validator.tsx";
+import Validator from "./common/Validator.tsx";
 import Toast from "./Toast.tsx";
 import Util from "./Util.tsx";
 
@@ -185,7 +185,7 @@ export default function RoomMgmt() {
                                 {row.map((_, j) => {
                                     return (
                                         <Seat
-                                            x={j}
+                                            x={j + 1}
                                             key={i + j}
                                             type={seats[i][j].type}
                                             onSeatClick={() =>

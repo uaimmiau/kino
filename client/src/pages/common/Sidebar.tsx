@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { SidebarItem } from "../types.ts";
+import { SidebarItem } from "../../types.ts";
 
 export default function Sidebar() {
     const sideBarItems = [
@@ -9,6 +9,7 @@ export default function Sidebar() {
         { name: "Dodawanie sal", path: "/admin/room-mgmt" },
         { name: "Przegląd sal", path: "/admin/rooms" },
         { name: "Dodawanie filmów", path: "/admin/movie-mgmt" },
+        { name: "Przegląd filmów", path: "/admin/movies" },
         { name: "Zarządzanie repertuarem", path: "/admin/screening-mgmt" },
     ] as SidebarItem[];
 

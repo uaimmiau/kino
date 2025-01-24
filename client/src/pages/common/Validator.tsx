@@ -1,4 +1,4 @@
-import Util from "./Util.tsx";
+import Util from "../Util.tsx";
 
 export default class Validator {
     static validateStringNotEmpty(
@@ -61,6 +61,11 @@ export default class Validator {
         );
     }
 
+    static isValidEmail(email: string): boolean {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
     static validateMovie(name: string, desc: string, runtime: number) {
         if (!this.stringInRange(name, 1, 200)) {
             Util.showToast("Nazwa powinna mieć między 1 a 200 znaków");
@@ -72,6 +77,24 @@ export default class Validator {
         }
         if (isNaN(+runtime) || runtime > 32767 || runtime <= 0) {
             Util.showToast("Podaj poprawny czas trwania");
+            return false;
+        }
+        return true;
+    }
+
+    static validateUser(username: string, email: string, password: string) {
+        if (!this.stringInRange(username, 1, 80)) {
+            Util.showToast(
+                "Nazwa użytkownia powinna mieć między 1 a 80 znaków"
+            );
+            return false;
+        }
+        if (!this.isValidEmail(email)) {
+            Util.showToast("Podaj poprawny adres email");
+            return false;
+        }
+        if (password.length <= 0) {
+            Util.showToast("Podaj hasło");
             return false;
         }
         return true;
