@@ -1,8 +1,10 @@
 import Header from "../common/Header.tsx";
 import Toast from "../Toast.tsx";
 import Auth from "./Auth.tsx";
+import { AuthData } from "./AuthWrapper.tsx";
 
 export default function Login() {
+    const { login } = AuthData();
     return (
         <main>
             <Header />
@@ -16,7 +18,7 @@ export default function Login() {
                         };
                         const username = target.username.value;
                         const password = target.password.value;
-                        Auth.login(username, password);
+                        login(username, password);
                     }}
                 >
                     <div className="formRow">
