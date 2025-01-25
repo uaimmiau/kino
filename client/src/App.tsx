@@ -10,6 +10,7 @@ import Rooms from "./pages/Rooms.tsx";
 import MovieMgmt from "./pages/MovieMgmt.tsx";
 import Movies from "./pages/Movies.tsx";
 import Register from "./pages/auth/Register.tsx";
+import Login from "./pages/auth/Login.tsx";
 
 function App() {
     return (
@@ -31,6 +32,8 @@ function App() {
                     element={<ScreeningMgmt />}
                 />
                 <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="*" element={<MainPage />} />
             </Routes>
         </BrowserRouter>
     );

@@ -1,9 +1,8 @@
 import Header from "../common/Header.tsx";
-import Validator from "../common/Validator.tsx";
 import Toast from "../Toast.tsx";
 import Auth from "./Auth.tsx";
 
-export default function Register() {
+export default function Login() {
     return (
         <main>
             <Header />
@@ -13,15 +12,11 @@ export default function Register() {
                         e.preventDefault();
                         const target = e.target as typeof e.target & {
                             username: { value: string };
-                            email: { value: string };
                             password: { value: string };
                         };
                         const username = target.username.value;
-                        const email = target.email.value;
                         const password = target.password.value;
-                        if (Validator.validateUser(username, email, password)) {
-                            Auth.register(username, email, password);
-                        }
+                        Auth.login(username, password);
                     }}
                 >
                     <div className="formRow">
@@ -29,15 +24,11 @@ export default function Register() {
                         <input type="text" name="username" id="username" />
                     </div>
                     <div className="formRow">
-                        <label htmlFor="email">Adres email:</label>
-                        <input type="email" name="email" id="email" />
-                    </div>
-                    <div className="formRow">
                         <label htmlFor="password">Hasło:</label>
                         <input type="password" name="password" id="password" />
                     </div>
                     <div className="formRow">
-                        <input type="submit" value="Zarejestruj" />
+                        <input type="submit" value="Zaloguj" />
                     </div>
                 </form>
             </div>

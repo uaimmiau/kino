@@ -7,7 +7,7 @@ export default function Header() {
             <img src="/react.svg" alt="logo" />
 
             <Link to={`/`}>Strona główna</Link>
-            <Link to={`/account`}>Zaloguj</Link>
+            <Link to={`/login`}>Zaloguj</Link>
             <Link to={`/register`}>Zarejestruj</Link>
         </div>
     );
