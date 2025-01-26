@@ -1,7 +1,8 @@
-import Sidebar from "./common/Sidebar.tsx";
-import { Movie } from "../types.ts";
+import Sidebar from "../common/Sidebar.tsx";
+import { Movie } from "../../types.ts";
 import { useState, useEffect } from "react";
-import "../css/Common.css";
+import "../../css/Common.css";
+import Header from "../common/Header.tsx";
 
 export default function Movies() {
     const [movies, setMovies] = useState<Movie[]>([]);
@@ -61,22 +62,25 @@ export default function Movies() {
     }, [posterUrl]);
 
     return (
-        <div className="mainCont">
-            <Sidebar />
-            <div id="ButtCont">
-                {movies.map((movie: Movie) => {
-                    return (
-                        <div
-                            key={movie.id}
-                            className="Button"
-                            onClick={() => loadMovie(movie.id)}
-                        >
-                            <p>{movie.title}</p>
-                        </div>
-                    );
-                })}
+        <main>
+            <Header />
+            <div className="mainCont">
+                <Sidebar />
+                <div id="ButtCont">
+                    {movies.map((movie: Movie) => {
+                        return (
+                            <div
+                                key={movie.id}
+                                className="Button"
+                                onClick={() => loadMovie(movie.id)}
+                            >
+                                <p>{movie.title}</p>
+                            </div>
+                        );
+                    })}
+                </div>
+                <div id="movieCont">{renderMovie()}</div>
             </div>
-            <div id="movieCont">{renderMovie()}</div>
-        </div>
+        </main>
     );
 }

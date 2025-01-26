@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import Sidebar from "./common/Sidebar.tsx";
-import { SeatItem, SeatType } from "../types.ts";
-import Seat from "./Seat.tsx";
-import Validator from "./common/Validator.tsx";
-import Toast from "./Toast.tsx";
-import Util from "./Util.tsx";
+import Sidebar from "../common/Sidebar.tsx";
+import { SeatItem, SeatType } from "../../types.ts";
+import Seat from "../Seat.tsx";
+import Validator from "../common/Validator.tsx";
+import Toast from "../Toast.tsx";
+import Util from "../Util.tsx";
 
 export default function RoomMgmt() {
     const [seats, setSeats] = useState(Array(0).fill(Array(0).fill({})));

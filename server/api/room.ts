@@ -1,47 +1,54 @@
 import { Router } from "jsr:@oak/oak/router";
 import pool from "../util/db.ts";
 import Validator from "../util/validator.ts";
+import { authenticateJWT } from "./auth.ts";
 
 const router = new Router();
 
-router.post("/api/save_room", async (ctx) => {
-    const reqBody = await ctx.request.body.json();
-    const connection = await pool.connect();
-    let isError: boolean = false;
-    let errorMsg: string = "";
-    [isError, errorMsg] = Validator.validateRoom(reqBody);
-    if (isError) {
-        ctx.response.body = { msg: errorMsg };
-        ctx.response.status = 400;
-    } else {
-        try {
-            const transaction = connection.createTransaction("abortable");
-            await transaction.begin();
+router.post(
+    "/api/save_room",
+    async (ctx, next) => {
+        await authenticateJWT(ctx, next, true);
+    },
+    async (ctx) => {
+        const reqBody = await ctx.request.body.json();
+        const connection = await pool.connect();
+        let isError: boolean = false;
+        let errorMsg: string = "";
+        [isError, errorMsg] = Validator.validateRoom(reqBody);
+        if (isError) {
+            ctx.response.body = { msg: errorMsg };
+            ctx.response.status = 400;
+        } else {
+            try {
+                const transaction = connection.createTransaction("abortable");
+                await transaction.begin();
 
-            const res = await transaction.queryArray`
+                const res = await transaction.queryArray`
                 INSERT INTO kino.room (number, sponsor, technology)
                 VALUES (${reqBody.roomNumber}, ${reqBody.roomSponsor}, ${reqBody.roomTechnology})
                 RETURNING id;
             `;
 
-            const roomID = res.rows[0][0];
+                const roomID = res.rows[0][0];
 
-            await transaction.queryArray`CALL insert_seats_json(${roomID}, ${JSON.stringify(
-                reqBody.seatList.flat()
-            )});`;
+                await transaction.queryArray`CALL insert_seats_json(${roomID}, ${JSON.stringify(
+                    reqBody.seatList.flat()
+                )});`;
 
-            await transaction.commit();
+                await transaction.commit();
 
-            ctx.response.body = { msg: "Dodano" };
-        } catch (err) {
-            console.log(err);
-            ctx.response.status = 500;
-            ctx.response.body = { msg: "Wewnętrzny błąd serwera" };
-        } finally {
-            connection.release();
+                ctx.response.body = { msg: "Dodano" };
+            } catch (err) {
+                console.log(err);
+                ctx.response.status = 500;
+                ctx.response.body = { msg: "Wewnętrzny błąd serwera" };
+            } finally {
+                connection.release();
+            }
         }
     }
-});
+);
 
 router.get("/api/rooms", async (ctx) => {
     const connection = await pool.connect();

@@ -21,21 +21,4 @@ export default class Auth {
                 Util.showToast(data.msg);
             });
     };
-
-    static login = async (username: string, password: string) => {
-        await fetch("/api/login", {
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify({
-                username: username,
-                password: password,
-            }),
-        })
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                Util.showToast(data.msg);
-            });
-    };
 }

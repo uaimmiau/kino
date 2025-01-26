@@ -1,4 +1,4 @@
-import { Router } from "jsr:@oak/oak/router";
+import { Router, RouterContext } from "jsr:@oak/oak/router";
 import pool from "../util/db.ts";
 import {
     hash as hashPromise,
@@ -8,6 +8,8 @@ import {
     genSaltSync,
 } from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 import { JWTPayload, jwtVerify, SignJWT } from "npm:jose@5.9.6";
+import { Context } from "@oak/oak/context";
+import * as cookie from "https://deno.land/std/http/cookie.ts";
 
 const router = new Router();
 const secureCookie = false; //should be true on prod;
@@ -44,13 +46,36 @@ async function createJWT(payload: JWTPayload): Promise<string> {
 async function verifyJWT(token: string): Promise<JWTPayload | null> {
     try {
         const { payload } = await jwtVerify(token, secret);
-        console.log("JWT is valid:", payload);
         return payload;
-    } catch (error) {
-        console.error("Invalid JWT:", error);
+    } catch (_err) {
         return null;
     }
 }
+
+export const authenticateJWT = async (
+    ctx: Context,
+    next: () => Promise<unknown>,
+    adminOnly: boolean
+) => {
+    const cookies = cookie.getCookies(ctx.request.headers);
+    const jwt = await verifyJWT(cookies.jwt);
+    if (jwt) {
+        if (adminOnly && !jwt.isAdmin) {
+            ctx.response.status = 401;
+            ctx.response.body = {
+                msg: "Brak dostępu administratora",
+            };
+        }
+        ctx.state.user = jwt.user;
+        ctx.state.isAdmin = jwt.isAdmin;
+        await next();
+    } else {
+        ctx.response.status = 401;
+        ctx.response.body = {
+            msg: "Brak dostępu",
+        };
+    }
+};
 
 router.post("/api/register", async (ctx) => {
     const reqBody = await ctx.request.body.json();
@@ -93,8 +118,9 @@ router.post("/api/login", async (ctx) => {
         const res = await connection.queryObject<{
             salt: string;
             password_hash: string;
+            admin: boolean;
         }>`
-            SELECT salt, password_hash FROM kino.user
+            SELECT salt, password_hash, admin FROM kino.user
             WHERE username = ${reqBody.username}
         `;
 
@@ -112,15 +138,23 @@ router.post("/api/login", async (ctx) => {
         );
 
         if (isValid) {
-            const token = await createJWT({ user: reqBody.username });
+            const isAdmin = res.rows[0].admin;
+            const token = await createJWT({
+                user: reqBody.username,
+                isAdmin: isAdmin,
+            });
             ctx.cookies.set("jwt", token, {
                 httpOnly: true,
                 secure: secureCookie,
                 sameSite: "strict",
                 maxAge: 3600,
             });
-            ctx.response.body = { msg: "Zalogowano" };
+            ctx.response.body = {
+                msg: "Zalogowano",
+                admin: isAdmin,
+            };
         } else {
+            ctx.response.status = 401;
             ctx.response.body = { msg: "Złe hasło" };
         }
     } catch (err) {
@@ -131,5 +165,31 @@ router.post("/api/login", async (ctx) => {
         connection.release();
     }
 });
+
+router.post("/api/logout", (ctx) => {
+    ctx.cookies.set("jwt", "", {
+        httpOnly: true,
+        secure: secureCookie,
+        sameSite: "strict",
+        maxAge: 0,
+    });
+    ctx.response.body = {
+        msg: "Wylogowano",
+    };
+});
+
+router.get(
+    "/api/auth",
+    async (ctx, next) => {
+        await authenticateJWT(ctx, next, false);
+    },
+    (ctx) => {
+        ctx.response.status = 200;
+        ctx.response.body = {
+            user: ctx.state.user,
+            isAdmin: ctx.state.isAdmin,
+        };
+    }
+);
 
 export default router;

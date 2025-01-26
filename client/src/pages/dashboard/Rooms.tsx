@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Sidebar from "./common/Sidebar.tsx";
-import { Room, SeatItem } from "../types.ts";
-import "../css/Common.css";
-import Util from "./Util.tsx";
+import Sidebar from "../common/Sidebar.tsx";
+import { Room, SeatItem } from "../../types.ts";
+import "../../css/Common.css";
+import Util from "../Util.tsx";
 
 export default function Rooms() {
     const [rooms, setRooms] = useState<Room[]>([]);
