@@ -99,4 +99,36 @@ export default class Validator {
         }
         return true;
     }
+
+    static validateScreening(
+        movieID: number,
+        roomID: number,
+        dateStart: Date,
+        normalPrice: number,
+        vipPrice: number
+    ) {
+        if (!this.validateNumber("Wybierz film", movieID, true)) {
+            return false;
+        }
+        if (!this.validateNumber("Wybierz sale", roomID, true)) {
+            return false;
+        }
+        if (!dateStart) {
+            Util.showToast("Wybierz datę rozpoczęcia");
+            return false;
+        }
+        if (
+            !this.validateNumber(
+                "Podaj cenę za zwykły bilet",
+                normalPrice,
+                true
+            )
+        ) {
+            return false;
+        }
+        if (!this.validateNumber("Podaj cenę za bilet vip", vipPrice, true)) {
+            return false;
+        }
+        return true;
+    }
 }

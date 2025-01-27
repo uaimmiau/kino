@@ -39,7 +39,7 @@ router.get("/api/movies", async (ctx) => {
     const connection = await pool.connect();
     try {
         const res = await connection.queryArray`
-        SELECT id, title FROM kino.movie;`;
+        SELECT id, title, runtime FROM kino.movie;`;
         ctx.response.body = res.rows;
     } catch (err) {
         console.log(err);

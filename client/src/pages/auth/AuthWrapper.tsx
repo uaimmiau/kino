@@ -16,8 +16,6 @@ export const AuthWrapper = () => {
         isAdmin: false,
     });
 
-    console.log(user);
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,7 +25,6 @@ export const AuthWrapper = () => {
                 credentilas: "include",
             }).then(async (response) => {
                 const data = await response.json();
-                console.log(data);
                 if (response.ok) {
                     setUser({
                         name: data.user,

@@ -6,6 +6,7 @@ import "jsr:@std/dotenv/load";
 import roomRouter from "./api/room.ts";
 import movieRouter from "./api/movie.ts";
 import authRouter from "./api/auth.ts";
+import screeningRouter from "./api/screening.ts";
 
 export const app = new Application();
 const router = new Router();
@@ -18,6 +19,9 @@ app.use(movieRouter.allowedMethods());
 
 app.use(authRouter.routes());
 app.use(authRouter.allowedMethods());
+
+app.use(screeningRouter.routes());
+app.use(screeningRouter.allowedMethods());
 
 app.use(oakCors());
 app.use(router.routes());

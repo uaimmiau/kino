@@ -3,6 +3,7 @@ import Sidebar from "../common/Sidebar.tsx";
 import { Room, SeatItem } from "../../types.ts";
 import "../../css/Common.css";
 import Util from "../Util.tsx";
+import Header from "../common/Header.tsx";
 
 export default function Rooms() {
     const [rooms, setRooms] = useState<Room[]>([]);
@@ -68,27 +69,30 @@ export default function Rooms() {
         })();
     }, []);
     return (
-        <div className="mainCont">
-            <Sidebar />
-            <div id="ButtCont">
-                {rooms.map((room: Room) => {
-                    return (
-                        <div
-                            key={room.id}
-                            className="Button"
-                            onClick={() => loadRoom(room.id)}
-                        >
-                            <p>
-                                {room.number} - {room.sponsor}
-                            </p>
-                        </div>
-                    );
-                })}
+        <main>
+            <Header />
+            <div className="mainCont">
+                <Sidebar />
+                <div id="ButtCont">
+                    {rooms.map((room: Room) => {
+                        return (
+                            <div
+                                key={room.id}
+                                className="Button"
+                                onClick={() => loadRoom(room.id)}
+                            >
+                                <p>
+                                    {room.number} - {room.sponsor}
+                                </p>
+                            </div>
+                        );
+                    })}
+                </div>
+                <div id="roomCont">
+                    {renderRoom()}
+                    {Util.renderSeats(seats)}
+                </div>
             </div>
-            <div id="roomCont">
-                {renderRoom()}
-                {Util.renderSeats(seats)}
-            </div>
-        </div>
+        </main>
     );
 }
