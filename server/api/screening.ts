@@ -42,4 +42,19 @@ router.post(
         }
     }
 );
+
+router.get("/api/screenings", async (ctx) => {
+    const connection = await pool.connect();
+    try {
+        const res = await connection.queryArray`
+            SELECT * FROM kino.upcoming_screenings_view`;
+        ctx.response.body = res.rows;
+    } catch (err) {
+        ctx.response.status = 500;
+        ctx.response.body = { msg: "Wewnętrzny błąd serwera" };
+    } finally {
+        connection.release();
+    }
+});
+
 export default router;

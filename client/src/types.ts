@@ -33,3 +33,9 @@ export type Movie = {
     desc: string;
     runtime: number;
 };
+
+export type Screening = {
+    screening_id: number;
+    movie_id: number;
+    start_date: Date;
+};
