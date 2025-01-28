@@ -10,7 +10,7 @@ import Toast from "../Toast.tsx";
 
 export default function Reservations() {
     const [reservations, setReservations] = useState<ReservationItem[]>([]);
-    const [trigger, setTrigger] = useState<number>();
+    const [trigger, setTrigger] = useState<{ hack: number }>({});
     const { user } = AuthData();
 
     useEffect(() => {
@@ -47,7 +47,7 @@ export default function Reservations() {
         })
             .then((response) => {
                 if (response.ok) {
-                    setTrigger(trigger + 1);
+                    setTrigger({ ...trigger, hack: 1 });
                 }
                 return response.json();
             })
