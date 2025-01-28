@@ -10,7 +10,7 @@ import Toast from "../Toast.tsx";
 
 export default function Reservations() {
     const [reservations, setReservations] = useState<ReservationItem[]>([]);
-
+    const [trigger, setTrigger] = useState<number>();
     const { user } = AuthData();
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export default function Reservations() {
             );
             setReservations(reservations);
         })();
-    }, []);
+    }, [trigger]);
 
     const deleteReservation = async (id: number) => {
         await fetch(`/api/reservation/${id}`, {
@@ -46,6 +46,9 @@ export default function Reservations() {
             credentials: "include",
         })
             .then((response) => {
+                if (response.ok) {
+                    setTrigger(trigger + 1);
+                }
                 return response.json();
             })
             .then((data) => {

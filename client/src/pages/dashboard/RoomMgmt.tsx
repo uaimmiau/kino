@@ -108,81 +108,94 @@ export default function RoomMgmt() {
             <Header />
             <div className="mainCont">
                 <Sidebar />
-                <div id="content">
+                <div id="mgmtCont">
                     <form>
-                        <label htmlFor="sponsor">Sponsor sali:</label>
-                        <input type="text" name="sponsor" id="roomSponsor" />
-                        <br />
-                        <label htmlFor="number">Numer sali:</label>
-                        <input
-                            type="number"
-                            name="number"
-                            id="roomNumber"
-                            defaultValue={0}
-                        />
-                        <br />
-                        <label htmlFor="tech">Technologia:</label>
-                        <select name="tech" id="roomTech">
-                            <option value="2D">2D</option>
-                            <option value="3D">3D</option>
-                            <option value="4DX">4DX</option>
-                        </select>
-                        <br />
-                        <label htmlFor="width">Szerokość sali:</label>
-                        <input
-                            name="width"
-                            type="number"
-                            min={0}
-                            value={form.width}
-                            onChange={(e) => {
-                                setForm({
-                                    ...form,
-                                    width: e.target.value,
-                                });
-                            }}
-                        />
-                        <br />
-                        <label htmlFor="height">Wysokość sali:</label>
-                        <input
-                            name="height"
-                            type="number"
-                            min={0}
-                            value={form.height}
-                            onChange={(e) => {
-                                setForm({
-                                    ...form,
-                                    height: e.target.value,
-                                });
-                            }}
-                        />
-                        <br />
-                        <input
-                            type="submit"
-                            value="Wygeneruj"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                const height: number = parseInt(form.height);
-                                const width: number = parseInt(form.width);
-                                if (height > 0 && width > 0) {
-                                    setSeats(
-                                        Array(height)
-                                            .fill(0)
-                                            .map((_, i) => {
-                                                return Array(width)
-                                                    .fill(0)
-                                                    .map((_, j) => {
-                                                        return {
-                                                            x: j,
-                                                            y: i,
-                                                            type: SeatType.Seat,
-                                                            number: j + 1,
-                                                        };
-                                                    });
-                                            })
+                        <div className="formRow">
+                            <label htmlFor="sponsor">Sponsor sali:</label>
+                            <input
+                                type="text"
+                                name="sponsor"
+                                id="roomSponsor"
+                            />
+                        </div>
+                        <div className="formRow">
+                            <label htmlFor="number">Numer sali:</label>
+                            <input
+                                type="number"
+                                name="number"
+                                id="roomNumber"
+                                defaultValue={0}
+                            />
+                        </div>
+                        <div className="formRow">
+                            <label htmlFor="tech">Technologia:</label>
+                            <select name="tech" id="roomTech">
+                                <option value="2D">2D</option>
+                                <option value="3D">3D</option>
+                                <option value="4DX">4DX</option>
+                            </select>
+                        </div>
+                        <div className="formRow">
+                            <label htmlFor="width">Szerokość sali:</label>
+                            <input
+                                name="width"
+                                type="number"
+                                min={0}
+                                value={form.width}
+                                onChange={(e) => {
+                                    setForm({
+                                        ...form,
+                                        width: e.target.value,
+                                    });
+                                }}
+                            />
+                        </div>
+                        <div className="formRow">
+                            <label htmlFor="height">Wysokość sali:</label>
+                            <input
+                                name="height"
+                                type="number"
+                                min={0}
+                                value={form.height}
+                                onChange={(e) => {
+                                    setForm({
+                                        ...form,
+                                        height: e.target.value,
+                                    });
+                                }}
+                            />
+                        </div>
+                        <div className="formRow">
+                            <input
+                                type="submit"
+                                value="Wygeneruj"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    const height: number = parseInt(
+                                        form.height
                                     );
-                                }
-                            }}
-                        />
+                                    const width: number = parseInt(form.width);
+                                    if (height > 0 && width > 0) {
+                                        setSeats(
+                                            Array(height)
+                                                .fill(0)
+                                                .map((_, i) => {
+                                                    return Array(width)
+                                                        .fill(0)
+                                                        .map((_, j) => {
+                                                            return {
+                                                                x: j,
+                                                                y: i,
+                                                                type: SeatType.Seat,
+                                                                number: j + 1,
+                                                            };
+                                                        });
+                                                })
+                                        );
+                                    }
+                                }}
+                            />
+                        </div>
                     </form>
                     <div id="roomCont">
                         {seats.map((row: SeatItem[], i: number) => {
@@ -212,8 +225,8 @@ export default function RoomMgmt() {
                         Zapisz
                     </button>
                 </div>
-                <Toast></Toast>
             </div>
+            <Toast />
         </main>
     );
 }

@@ -12,7 +12,7 @@ export default function MovieMgmt() {
             <Header />
             <div className="mainCont">
                 <Sidebar />
-                <div>
+                <div id="mgmtCont">
                     <form
                         onSubmit={(e: React.FormEvent) => {
                             e.preventDefault();

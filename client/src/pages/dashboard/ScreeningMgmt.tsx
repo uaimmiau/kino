@@ -64,140 +64,145 @@ export default function ScreeningMgmt() {
             <Header />
             <div className="mainCont">
                 <Sidebar />
-                <form
-                    onSubmit={(e: React.FormEvent) => {
-                        e.preventDefault();
-                        const target = e.target as typeof e.target & {
-                            movieID: { value: number };
-                            roomID: { value: number };
-                            dateStart: { value: Date };
-                            normalPrice: { value: number };
-                            vipPrice: { value: number };
-                        };
-                        // console.log(target);
-                        const movieID = target.movieID.value;
-                        const roomID = target.roomID.value;
-                        const dateStart = target.dateStart.value;
-                        const normalPrice = target.normalPrice.value;
-                        const vipPrice = target.vipPrice.value;
+                <div id="mgmtCont">
+                    <form
+                        onSubmit={(e: React.FormEvent) => {
+                            e.preventDefault();
+                            const target = e.target as typeof e.target & {
+                                movieID: { value: number };
+                                roomID: { value: number };
+                                dateStart: { value: Date };
+                                normalPrice: { value: number };
+                                vipPrice: { value: number };
+                            };
+                            // console.log(target);
+                            const movieID = target.movieID.value;
+                            const roomID = target.roomID.value;
+                            const dateStart = target.dateStart.value;
+                            const normalPrice = target.normalPrice.value;
+                            const vipPrice = target.vipPrice.value;
 
-                        if (
-                            Validator.validateScreening(
-                                movieID,
-                                roomID,
-                                dateStart,
-                                normalPrice,
-                                vipPrice
-                            )
-                        ) {
-                            const formData = new FormData();
-                            formData.append("movieID", movieID.toString());
-                            formData.append("roomID", roomID.toString());
-                            formData.append(
-                                "dateStart",
-                                new Date(dateStart).toUTCString()
-                            );
-                            formData.append(
-                                "normalPrice",
-                                normalPrice.toString()
-                            );
-                            formData.append("vipPrice", vipPrice.toString());
-                            (async () => {
-                                await fetch(`/api/save_screening`, {
-                                    method: "POST",
-                                    body: formData,
-                                })
-                                    .then((response) => {
-                                        return response.json();
+                            if (
+                                Validator.validateScreening(
+                                    movieID,
+                                    roomID,
+                                    dateStart,
+                                    normalPrice,
+                                    vipPrice
+                                )
+                            ) {
+                                const formData = new FormData();
+                                formData.append("movieID", movieID.toString());
+                                formData.append("roomID", roomID.toString());
+                                formData.append(
+                                    "dateStart",
+                                    new Date(dateStart).toUTCString()
+                                );
+                                formData.append(
+                                    "normalPrice",
+                                    normalPrice.toString()
+                                );
+                                formData.append(
+                                    "vipPrice",
+                                    vipPrice.toString()
+                                );
+                                (async () => {
+                                    await fetch(`/api/save_screening`, {
+                                        method: "POST",
+                                        body: formData,
                                     })
-                                    .then((data) => {
-                                        Util.showToast(data.msg);
-                                    });
-                            })();
-                        }
-                    }}
-                >
-                    <div className="formRow">
-                        <label htmlFor="movieID">Film:</label>
-                        <select
-                            name="movieID"
-                            id="movieID"
-                            onChange={(e) => {
-                                const runtime = movies.find(
-                                    (movie: Movie) =>
-                                        movie.id == parseInt(e.target.value)
-                                ).runtime;
-                                setRuntime(runtime);
-                                calculateEndDate(runtime);
-                            }}
-                        >
-                            {movies.map((movie: Movie) => {
-                                return (
-                                    <option key={movie.id} value={movie.id}>
-                                        {movie.title}
-                                    </option>
-                                );
-                            })}
-                        </select>
-                    </div>
-                    <div className="formRow">
-                        <label htmlFor="roomID">Sala:</label>
-                        <select name="roomID" id="roomID">
-                            {rooms.map((room: Room) => {
-                                return (
-                                    <option key={room.id} value={room.id}>
-                                        {room.number} - {room.sponsor}
-                                    </option>
-                                );
-                            })}
-                        </select>
-                    </div>
-                    <div className="formRow">
-                        <label htmlFor="dateStart">Data rozpoczęcia:</label>
-                        <input
-                            type="datetime-local"
-                            name="dateStart"
-                            id="dateStart"
-                            onChange={() => calculateEndDate(runtime)}
-                        />
-                    </div>
-                    <div className="formRow">
-                        <label htmlFor="dateEnd">Data zakończenia:</label>
-                        <input
-                            type="datetime-local"
-                            name="dateEnd"
-                            id="dateEnd"
-                            readOnly
-                        />
-                    </div>
-                    <div className="formRow">
-                        <label htmlFor="normalPrice">
-                            Cena biletu zwykłego:
-                        </label>
-                        <input
-                            name="normalPrice"
-                            id="normalPrice"
-                            type="number"
-                            min="1"
-                            step="any"
-                            defaultValue={0}
-                        />
-                    </div>
-                    <div className="formRow">
-                        <label htmlFor="vipPrice">Cena biletu vip:</label>
-                        <input
-                            name="vipPrice"
-                            id="vipPrice"
-                            type="number"
-                            min="1"
-                            step="any"
-                            defaultValue={0}
-                        />
-                    </div>
-                    <div className="formRow">
-                        <input type="submit" value="Zapisz" />
-                    </div>
-                </form>
+                                        .then((response) => {
+                                            return response.json();
+                                        })
+                                        .then((data) => {
+                                            Util.showToast(data.msg);
+                                        });
+                                })();
+                            }
+                        }}
+                    >
+                        <div className="formRow">
+                            <label htmlFor="movieID">Film:</label>
+                            <select
+                                name="movieID"
+                                id="movieID"
+                                onChange={(e) => {
+                                    const runtime = movies.find(
+                                        (movie: Movie) =>
+                                            movie.id == parseInt(e.target.value)
+                                    ).runtime;
+                                    setRuntime(runtime);
+                                    calculateEndDate(runtime);
+                                }}
+                            >
+                                {movies.map((movie: Movie) => {
+                                    return (
+                                        <option key={movie.id} value={movie.id}>
+                                            {movie.title}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                        </div>
+                        <div className="formRow">
+                            <label htmlFor="roomID">Sala:</label>
+                            <select name="roomID" id="roomID">
+                                {rooms.map((room: Room) => {
+                                    return (
+                                        <option key={room.id} value={room.id}>
+                                            {room.number} - {room.sponsor}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                        </div>
+                        <div className="formRow">
+                            <label htmlFor="dateStart">Data rozpoczęcia:</label>
+                            <input
+                                type="datetime-local"
+                                name="dateStart"
+                                id="dateStart"
+                                onChange={() => calculateEndDate(runtime)}
+                            />
+                        </div>
+                        <div className="formRow">
+                            <label htmlFor="dateEnd">Data zakończenia:</label>
+                            <input
+                                type="datetime-local"
+                                name="dateEnd"
+                                id="dateEnd"
+                                readOnly
+                            />
+                        </div>
+                        <div className="formRow">
+                            <label htmlFor="normalPrice">
+                                Cena biletu zwykłego:
+                            </label>
+                            <input
+                                name="normalPrice"
+                                id="normalPrice"
+                                type="number"
+                                min="1"
+                                step="any"
+                                defaultValue={0}
+                            />
+                        </div>
+                        <div className="formRow">
+                            <label htmlFor="vipPrice">Cena biletu vip:</label>
+                            <input
+                                name="vipPrice"
+                                id="vipPrice"
+                                type="number"
+                                min="1"
+                                step="any"
+                                defaultValue={0}
+                            />
+                        </div>
+                        <div className="formRow">
+                            <input type="submit" value="Zapisz" />
+                        </div>
+                    </form>
+                </div>
             </div>
             <Toast />
         </main>

@@ -46,9 +46,9 @@ export default function Rooms() {
             return (
                 <div id="roomHeader">
                     <h2>
-                        {currentRoom.number} - {currentRoom.sponsor}
+                        Sala: {currentRoom.number} - {currentRoom.sponsor}
                     </h2>
-                    <h3>{currentRoom.technology}</h3>
+                    <h3>Seans w {currentRoom.technology}</h3>
                 </div>
             );
         }
