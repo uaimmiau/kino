@@ -156,3 +156,15 @@
     background-color: #65697b;
     transform: translateY(-1px);
 }
+
+.accountCont {
+    padding: 20px;
+}
+
+#accountStatCont {
+    overflow: auto;
+}
+
+.accountStat {
+    font-size: 25px;
+}

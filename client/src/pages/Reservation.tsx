@@ -1,11 +1,10 @@
 import Header from "./common/Header.tsx";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Room, SeatItem } from "../types.ts";
 import Util from "./Util.tsx";
 import { AuthData } from "./auth/AuthWrapper.tsx";
 import Toast from "./Toast.tsx";
-import { useNavigate } from "react-router-dom";
 
 export default function Reservation() {
     const location = useLocation();
@@ -107,7 +106,7 @@ export default function Reservation() {
         <main>
             <Header />
             <div className="mainCont">
-                <div>
+                <div id="reservationMainCont">
                     <div className="marginLeft">
                         <h1>Zarezerwuj miejsca na: {title}</h1>
                         {currentRoom ? (

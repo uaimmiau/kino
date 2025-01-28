@@ -33,13 +33,15 @@ export default function Account() {
                     <h1>Nazwa użytkownika: {user.name}</h1>
                     <h2>Adres email: {email}</h2>
                     <h2>Statystyki:</h2>
-                    {stats.map((stat: Stat) => {
-                        return (
-                            <div key={stat.title}>
-                                {stat.title} - rezerwowano {stat.count} razy
-                            </div>
-                        );
-                    })}
+                    <div id="accountStatCont">
+                        {stats.map((stat: Stat) => {
+                            return (
+                                <div key={stat.title} className="accountStat">
+                                    {stat.title} - rezerwowano {stat.count} razy
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </main>

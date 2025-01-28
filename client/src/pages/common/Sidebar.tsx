@@ -16,7 +16,7 @@ export default function Sidebar() {
         },
         { name: "Przegląd filmów", path: "/admin/movies", adminOnly: true },
         {
-            name: "Zarządzanie repertuarem",
+            name: "Repertuar",
             path: "/admin/screening-mgmt",
             adminOnly: true,
         },
@@ -27,7 +27,7 @@ export default function Sidebar() {
             {sideBarItems.map((item: SidebarItem) => {
                 if (!item.adminOnly || (item.adminOnly && user.isAdmin)) {
                     return (
-                        <div key={item.name}>
+                        <div key={item.name} className="sidebarCont">
                             <Link to={`${item.path}`}>{item.name}</Link>
                         </div>
                     );

@@ -1,14 +1,29 @@
 .reservationsCont {
-    width: 100%;
+    width: 800px;
     overflow: auto;
 }
 
 .reservationCont {
-    border: 1px solid;
+    border: 2px solid;
+    font-size: 20px;
     display: flex;
     padding: 10px;
     justify-content: space-around;
+    align-items: center;
     margin: 5px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.reservationCont > button {
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.reservationCont > button:hover {
+    cursor: pointer;
+    background-color: #65697b;
+    transform: translateY(-1px);
 }
 
 #legendCont {
@@ -26,7 +41,7 @@
     /* justify-content: center; */
 }
 
-.mainCont > div {
+#reservationMainCont {
     width: 100%;
     display: flex;
     flex-direction: column;
