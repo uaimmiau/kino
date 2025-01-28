@@ -50,6 +50,24 @@ router.get("/api/screenings", async (ctx) => {
             SELECT * FROM kino.upcoming_screenings_view`;
         ctx.response.body = res.rows;
     } catch (err) {
+        console.log(err);
+        ctx.response.status = 500;
+        ctx.response.body = { msg: "Wewnętrzny błąd serwera" };
+    } finally {
+        connection.release();
+    }
+});
+
+router.get("/api/prices/:id", async (ctx) => {
+    const id = ctx?.params?.id;
+    const connection = await pool.connect();
+    try {
+        const res = await connection.queryArray`
+            SELECT normal_price, vip_price FROM kino.screening
+            WHERE id = ${id}`;
+        ctx.response.body = res.rows;
+    } catch (err) {
+        console.log(err);
         ctx.response.status = 500;
         ctx.response.body = { msg: "Wewnętrzny błąd serwera" };
     } finally {

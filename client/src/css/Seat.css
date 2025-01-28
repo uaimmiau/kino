@@ -29,3 +29,9 @@
 .empty {
     background-color: rgb(141, 140, 140);
 }
+.hidden {
+    visibility: hidden;
+}
+.seatItem.selected {
+    background-color: brown;
+}

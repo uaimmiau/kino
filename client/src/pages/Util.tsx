@@ -14,7 +14,11 @@ export default class Util {
         }
     }
 
-    static renderSeats(seats: SeatItem[]) {
+    static renderSeats(
+        seats: SeatItem[],
+        onClick: any,
+        clickedSeatIds: number[]
+    ) {
         // Quite frankly i don't entirely grasp the code below
         // it maps a 1d array of seats into 2d one grouped by row tho
         const seat2D = Object.values(
@@ -36,7 +40,11 @@ export default class Util {
                                         x={seat.number}
                                         key={i + j}
                                         type={seat.type}
-                                        onSeatClick={() => {}}
+                                        onSeatClick={() => onClick(seat.id)}
+                                        display={true}
+                                        isSelected={clickedSeatIds.includes(
+                                            seat.id
+                                        )}
                                     />
                                 );
                             })}

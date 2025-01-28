@@ -194,6 +194,8 @@ export default function RoomMgmt() {
                                                 onSeatClick={() =>
                                                     handleClick(i, j)
                                                 }
+                                                display={false}
+                                                isSelected={false}
                                             />
                                         );
                                     })}

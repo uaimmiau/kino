@@ -72,7 +72,7 @@ router.get("/api/room/:id", async (ctx) => {
         const room = await connection.queryObject`
             SELECT number, sponsor, technology FROM kino.room WHERE id = ${id};`;
         const seats = await connection.queryArray`
-            SELECT dim_x, dim_y, row, number, seat_type
+            SELECT id, dim_x, dim_y, row, number, seat_type
             FROM kino.seat
             WHERE room_id = ${id}
             ORDER BY row, number

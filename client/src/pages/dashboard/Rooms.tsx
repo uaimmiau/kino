@@ -21,13 +21,15 @@ export default function Rooms() {
             };
             setcurrentRoom(room);
             const seats = data.seats.map(
-                ([dim_x, dim_y, row, number, type]: [
+                ([id, dim_x, dim_y, row, number, type]: [
+                    number,
                     number,
                     number,
                     number,
                     number,
                     number
                 ]) => ({
+                    id: id,
                     x: dim_x,
                     y: dim_y,
                     row: row,
@@ -90,7 +92,7 @@ export default function Rooms() {
                 </div>
                 <div id="roomCont">
                     {renderRoom()}
-                    {Util.renderSeats(seats)}
+                    {Util.renderSeats(seats, () => {}, [])}
                 </div>
             </div>
         </main>

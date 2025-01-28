@@ -8,12 +8,20 @@ import Reservations from "../dashboard/Reservations.tsx";
 import RoomMgmt from "../dashboard/RoomMgmt.tsx";
 import Rooms from "../dashboard/Rooms.tsx";
 import ScreeningMgmt from "../dashboard/ScreeningMgmt.tsx";
+import Reservation from "../Reservation.tsx";
 
 export const routes = [
     {
         path: "/",
         name: "test",
         element: <MainPage />,
+        loginOnly: false,
+        adminOnly: false,
+    },
+    {
+        path: "/reservation",
+        name: "test",
+        element: <Reservation />,
         loginOnly: false,
         adminOnly: false,
     },

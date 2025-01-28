@@ -13,6 +13,7 @@ export enum SeatType {
 }
 
 export type SeatItem = {
+    id: number;
     x: number;
     y: number;
     type: SeatType;
@@ -37,5 +38,6 @@ export type Movie = {
 export type Screening = {
     screening_id: number;
     movie_id: number;
+    room_id: number;
     start_date: Date;
 };
