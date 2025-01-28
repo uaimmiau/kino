@@ -5,4 +5,6 @@
     /* width: 1000px; */
     background-color: rgb(173, 175, 175);
     padding: 10px;
+    height: 70px;
+    box-sizing: border-box;
 }

@@ -55,7 +55,7 @@ export const AuthWrapper = () => {
                 Util.showToast(data.msg);
                 if (loginOk) {
                     setUser({
-                        user: username,
+                        name: username,
                         isAuthenticated: true,
                         isAdmin: data.admin,
                     });

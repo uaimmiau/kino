@@ -41,3 +41,17 @@ export type Screening = {
     room_id: number;
     start_date: Date;
 };
+
+export type Stat = {
+    title: string;
+    count: number;
+};
+
+export type ReservationItem = {
+    id: number;
+    title: string;
+    start_date: Date;
+    number: number;
+    row: number;
+    roomNumber: number;
+};

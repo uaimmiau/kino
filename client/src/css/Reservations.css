@@ -1,0 +1,12 @@
+.reservationsCont {
+    width: 100%;
+    overflow: auto;
+}
+
+.reservationCont {
+    border: 1px solid;
+    display: flex;
+    padding: 10px;
+    justify-content: space-around;
+    margin: 5px;
+}

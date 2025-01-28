@@ -3,6 +3,7 @@ main {
     box-sizing: border-box;
     /* padding: 10px; */
     width: 1000px;
+    height: 100vh;
 }
 
 .cont {
@@ -21,11 +22,14 @@ main {
 
 .mainCont {
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    height: calc(100vh - 70px);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .sidebar {
     background-color: aquamarine;
     padding: 20px;
+    height: 100%;
+    box-sizing: border-box;
 }
