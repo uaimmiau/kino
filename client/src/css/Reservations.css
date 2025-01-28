@@ -10,3 +10,46 @@
     justify-content: space-around;
     margin: 5px;
 }
+
+#legendCont {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.legendCell {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-left: 10px;
+    /* padding: 10px; */
+    /* justify-content: center; */
+}
+
+.mainCont > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: auto;
+}
+
+#saveReservationCont {
+    display: flex;
+    justify-content: center;
+    height: 80px;
+}
+
+#saveReservationCont > button {
+    width: 80%;
+    font-size: 30px;
+    background-color: #6e7387;
+    height: 50px;
+    border-radius: 10px;
+}
+
+#saveReservationCont > button:hover {
+    cursor: pointer;
+    background-color: #65697b;
+    transform: translateY(-5px);
+}

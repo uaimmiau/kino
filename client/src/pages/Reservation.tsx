@@ -1,10 +1,8 @@
 import Header from "./common/Header.tsx";
-import Sidebar from "./common/Sidebar.tsx";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Room, SeatItem, SeatType } from "../types.ts";
 import Util from "./Util.tsx";
-import Seat from "./Seat.tsx";
 import { AuthData } from "./auth/AuthWrapper.tsx";
 import Toast from "./Toast.tsx";
 import { useNavigate } from "react-router-dom";
@@ -80,25 +78,29 @@ export default function Reservation() {
     };
 
     const saveReservation = async () => {
-        await fetch("/api/save_reservation", {
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify({
-                screening_id: screening_id,
-                selectedSeats: clickedSeatIds,
-            }),
-        })
-            .then((response) => {
-                if (response.ok) {
-                    setTimeout(() => {
-                        navigate("/");
-                    }, 2500);
-                }
-                return response.json();
+        if (clickedSeatIds.length > 0) {
+            await fetch("/api/save_reservation", {
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify({
+                    screening_id: screening_id,
+                    selectedSeats: clickedSeatIds,
+                }),
             })
-            .then((data) => {
-                Util.showToast(data.msg);
-            });
+                .then((response) => {
+                    if (response.ok) {
+                        setTimeout(() => {
+                            navigate("/");
+                        }, 2500);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    Util.showToast(data.msg);
+                });
+        } else {
+            Util.showToast("Wybierz miejsca do rezerwacji");
+        }
     };
 
     return (
@@ -106,27 +108,57 @@ export default function Reservation() {
             <Header />
             <div className="mainCont">
                 <div>
-                    <h1>{title}</h1>
-                    <div>
-                        <p>Bilet normalny: {normalPrice}zł</p>
-                        <div className="seatItem seat"></div>
+                    <div className="marginLeft">
+                        <h1>Zarezerwuj miejsca na: {title}</h1>
+                        {currentRoom ? (
+                            <h3>
+                                Sala {currentRoom.number} -{" "}
+                                {currentRoom.sponsor} w {currentRoom.technology}
+                            </h3>
+                        ) : (
+                            false
+                        )}
                     </div>
+                    {Util.renderSeats(
+                        seats,
+                        handleClick,
+                        clickedSeatIds,
+                        reservedSeatIds
+                    )}
                     <div>
-                        <p>Bilet vip: {vipPrice}zł</p>
-                        <div className="seatItem vip"></div>
+                        <div className="marginLeft">Legenda:</div>
+                        <div id="legendCont">
+                            <div className="legendCell">
+                                <div className="seatItem seat"></div>
+                                <p>Miejsce normalne: {normalPrice}zł</p>
+                            </div>
+                            <div className="legendCell">
+                                <div className="seatItem vip"></div>
+                                <p>Miejsce VIP: {vipPrice}zł</p>
+                            </div>
+                            <div className="legendCell">
+                                <div className="seatItem selected"></div>
+                                <p>Miejsce wybrane</p>
+                            </div>
+                            <div className="legendCell">
+                                <div className="seatItem reserved"></div>
+                                <p>Miejsce zajęte</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="saveReservationCont">
+                        {user.isAuthenticated ? (
+                            <button onClick={saveReservation}>
+                                Zarezerwuj
+                            </button>
+                        ) : (
+                            <div>
+                                Rezerwacja możliwa tylko dla zalogowanych
+                                użytkowników
+                            </div>
+                        )}
                     </div>
                 </div>
-                {Util.renderSeats(
-                    seats,
-                    handleClick,
-                    clickedSeatIds,
-                    reservedSeatIds
-                )}
-                {user.isAuthenticated ? (
-                    <button onClick={saveReservation}>Zarezerwuj</button>
-                ) : (
-                    <div>Rezerwacja możliwa dla zalogowanych użytkowników</div>
-                )}
             </div>
             <Toast />
         </main>

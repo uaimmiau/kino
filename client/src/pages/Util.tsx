@@ -35,7 +35,7 @@ export default class Util {
                 {seat2D.map((row: SeatItem[], i: number) => {
                     return (
                         <div className="roomRow" key={"rowKey" + i}>
-                            <div className="rowLabel">{row[0].row}:</div>
+                            <div className="rowLabel">Rząd {row[0].row}:</div>
                             {row.map((seat, j) => {
                                 return (
                                     <Seat

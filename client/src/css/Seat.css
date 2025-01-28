@@ -1,14 +1,20 @@
 .roomRow {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .seatItem {
     /* padding: px; */
     margin: 2px;
-    width: 30px;
-    height: 25px;
+    width: 35px;
+    height: 30px;
     border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .seatItem:hover {
@@ -16,7 +22,7 @@
 }
 
 .rowLabel {
-    width: 30px;
+    width: 60px;
     height: 25px;
 }
 
