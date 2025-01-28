@@ -123,3 +123,36 @@
 .marginLeft {
     margin-left: 50px;
 }
+
+.authForm {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.authForm > form {
+    padding-top: 100px;
+}
+
+.formRow {
+    display: flex;
+    flex-direction: column;
+}
+
+.formRow > input {
+    font-size: 30px;
+    margin: 5px;
+    border-radius: 20px;
+    padding-left: 10px;
+}
+
+.formRow > input[type="submit"] {
+    padding: 10px;
+}
+
+.formRow > input[type="submit"]:hover {
+    cursor: pointer;
+    background-color: #65697b;
+    transform: translateY(-1px);
+}

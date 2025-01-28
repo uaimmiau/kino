@@ -1,6 +1,5 @@
 import Header from "../common/Header.tsx";
 import Toast from "../Toast.tsx";
-import Auth from "./Auth.tsx";
 import { AuthData } from "./AuthWrapper.tsx";
 
 export default function Login() {
@@ -8,7 +7,7 @@ export default function Login() {
     return (
         <main>
             <Header />
-            <div>
+            <div className="authForm">
                 <form
                     onSubmit={(e: React.FormEvent) => {
                         e.preventDefault();

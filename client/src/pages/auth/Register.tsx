@@ -7,7 +7,7 @@ export default function Register() {
     return (
         <main>
             <Header />
-            <div>
+            <div className="authForm">
                 <form
                     onSubmit={(e: React.FormEvent) => {
                         e.preventDefault();

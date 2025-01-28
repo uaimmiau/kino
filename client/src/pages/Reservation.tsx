@@ -1,7 +1,7 @@
 import Header from "./common/Header.tsx";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Room, SeatItem, SeatType } from "../types.ts";
+import { Room, SeatItem } from "../types.ts";
 import Util from "./Util.tsx";
 import { AuthData } from "./auth/AuthWrapper.tsx";
 import Toast from "./Toast.tsx";
