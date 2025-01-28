@@ -1,9 +1,11 @@
 main {
-    background-color: rgb(198, 207, 214);
+    background-color: #c6cfd6;
     box-sizing: border-box;
     /* padding: 10px; */
     width: 1000px;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .cont {

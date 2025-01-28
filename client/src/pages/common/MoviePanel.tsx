@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Movie } from "../../types.ts";
+import "../../css/Common.css";
 
 export default function MoviePanel({ id }: { id: number }) {
     const [movie, setMovie] = useState<Movie>();
@@ -22,11 +23,13 @@ export default function MoviePanel({ id }: { id: number }) {
     const renderMovie = () => {
         if (movie) {
             return (
-                <div id="movieCont">
-                    <h2>{movie.title}</h2>
-                    <h3>Czas trwania: {movie.runtime}</h3>
-                    <div className="multiline">{movie.desc}</div>
+                <div className="movieCont">
                     {posterUrl && <img src={posterUrl} alt={movie.title} />}
+                    <div className="descCont">
+                        <h2>{movie.title}</h2>
+                        <h3>Czas trwania: {movie.runtime} minut</h3>
+                        <div className="multiline">{movie.desc}</div>
+                    </div>
                 </div>
             );
         }

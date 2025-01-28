@@ -48,38 +48,63 @@ export default function MainPage() {
     return (
         <main>
             <Header />
-            <h1>Repertuar:</h1>
-            {movies.map((movie: Movie) => {
-                return (
-                    <div key={movie.id}>
-                        <MoviePanel id={movie.id} key={movie.id} />
-                        {screenings.map((screening: Screening) => {
-                            if (screening.movie_id === movie.id) {
-                                return (
-                                    <Link
-                                        key={screening.screening_id}
-                                        to="/reservation"
-                                        state={{
-                                            screening_id:
-                                                screening.screening_id,
-                                            room_id: screening.room_id,
-                                            title: movie.title,
-                                        }}
-                                    >
-                                        <div>
-                                            {screening.start_date.getDate()}.
-                                            {screening.start_date.getMonth() +
-                                                1}
-                                            - {screening.start_date.getHours()}:
-                                            {screening.start_date.getMinutes()}
-                                        </div>
-                                    </Link>
-                                );
-                            }
-                        })}
-                    </div>
-                );
-            })}
+            <div id="movieBanner">
+                <h1>Repertuar:</h1>
+            </div>
+            <div className="moviesCont">
+                {movies.map((movie: Movie) => {
+                    return (
+                        <div key={movie.id} className="moviePanelCont">
+                            <MoviePanel id={movie.id} key={movie.id} />
+                            <div className="reservationLinkCont">
+                                {screenings.map((screening: Screening) => {
+                                    if (screening.movie_id === movie.id) {
+                                        return (
+                                            <div
+                                                key={screening.screening_id}
+                                                className="reservationLink"
+                                            >
+                                                <Link
+                                                    to="/reservation"
+                                                    state={{
+                                                        screening_id:
+                                                            screening.screening_id,
+                                                        room_id:
+                                                            screening.room_id,
+                                                        title: movie.title,
+                                                    }}
+                                                >
+                                                    {screening.start_date
+                                                        .getDate()
+                                                        .toString()
+                                                        .padStart(2, "0")}
+                                                    .
+                                                    {(
+                                                        screening.start_date.getMonth() +
+                                                        1
+                                                    )
+                                                        .toString()
+                                                        .padStart(2, "0")}{" "}
+                                                    -{" "}
+                                                    {screening.start_date
+                                                        .getHours()
+                                                        .toString()
+                                                        .padStart(2, "0")}
+                                                    :
+                                                    {screening.start_date
+                                                        .getMinutes()
+                                                        .toString()
+                                                        .padStart(2, "0")}
+                                                </Link>
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
             <div className="footer"></div>
         </main>
     );
