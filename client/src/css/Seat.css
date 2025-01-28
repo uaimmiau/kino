@@ -35,3 +35,6 @@
 .seatItem.selected {
     background-color: brown;
 }
+.reserved {
+    background-color: rgb(56, 56, 56);
+}

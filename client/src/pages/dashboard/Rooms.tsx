@@ -92,7 +92,7 @@ export default function Rooms() {
                 </div>
                 <div id="roomCont">
                     {renderRoom()}
-                    {Util.renderSeats(seats, () => {}, [])}
+                    {Util.renderSeats(seats, () => {}, [], [])}
                 </div>
             </div>
         </main>

@@ -17,7 +17,8 @@ export default class Util {
     static renderSeats(
         seats: SeatItem[],
         onClick: any,
-        clickedSeatIds: number[]
+        clickedSeatIds: number[],
+        reservedSeatIds: number[]
     ) {
         // Quite frankly i don't entirely grasp the code below
         // it maps a 1d array of seats into 2d one grouped by row tho
@@ -30,6 +31,7 @@ export default class Util {
 
         return (
             <div id="seatCont">
+                <div className="screen"></div>
                 {seat2D.map((row: SeatItem[], i: number) => {
                     return (
                         <div className="roomRow" key={"rowKey" + i}>
@@ -43,6 +45,9 @@ export default class Util {
                                         onSeatClick={() => onClick(seat.id)}
                                         display={true}
                                         isSelected={clickedSeatIds.includes(
+                                            seat.id
+                                        )}
+                                        isReserved={reservedSeatIds.includes(
                                             seat.id
                                         )}
                                     />

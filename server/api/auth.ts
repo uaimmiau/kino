@@ -68,6 +68,7 @@ export const authenticateJWT = async (
         }
         ctx.state.user = jwt.user;
         ctx.state.isAdmin = jwt.isAdmin;
+        ctx.state.user_id = jwt.id;
         await next();
     } else {
         ctx.response.status = 401;
@@ -116,11 +117,12 @@ router.post("/api/login", async (ctx) => {
     const connection = await pool.connect();
     try {
         const res = await connection.queryObject<{
+            id: number;
             salt: string;
             password_hash: string;
             admin: boolean;
         }>`
-            SELECT salt, password_hash, admin FROM kino.user
+            SELECT id, salt, password_hash, admin FROM kino.user
             WHERE username = ${reqBody.username}
         `;
 
@@ -142,6 +144,7 @@ router.post("/api/login", async (ctx) => {
             const token = await createJWT({
                 user: reqBody.username,
                 isAdmin: isAdmin,
+                id: res.rows[0].id,
             });
             ctx.cookies.set("jwt", token, {
                 httpOnly: true,

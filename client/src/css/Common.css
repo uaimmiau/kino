@@ -20,3 +20,8 @@
 #movieCont > img {
     width: 200px;
 }
+
+.screen {
+    border: 4px solid black;
+    margin: 15px;
+}

@@ -59,7 +59,9 @@ export const AuthWrapper = () => {
                         isAuthenticated: true,
                         isAdmin: data.admin,
                     });
-                    navigate("/");
+                    setTimeout(() => {
+                        navigate("/");
+                    }, 2500);
                 }
             });
     };
@@ -68,13 +70,14 @@ export const AuthWrapper = () => {
         await fetch("/api/logout", {
             method: "POST",
             credentials: "include",
-        }).then((response) => {
+        }).then(async (response) => {
             if (response.ok) {
                 setUser({
                     user: "",
                     isAuthenticated: false,
                     isAdmin: false,
                 });
+                navigate("/");
             }
         });
     };

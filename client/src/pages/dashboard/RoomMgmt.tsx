@@ -122,7 +122,11 @@ export default function RoomMgmt() {
                         />
                         <br />
                         <label htmlFor="tech">Technologia:</label>
-                        <input type="text" name="tech" id="roomTech" />
+                        <select name="tech" id="roomTech">
+                            <option value="2D">2D</option>
+                            <option value="3D">3D</option>
+                            <option value="4DX">4DX</option>
+                        </select>
                         <br />
                         <label htmlFor="width">Szerokość sali:</label>
                         <input
@@ -196,6 +200,7 @@ export default function RoomMgmt() {
                                                 }
                                                 display={false}
                                                 isSelected={false}
+                                                isReserved={false}
                                             />
                                         );
                                     })}
