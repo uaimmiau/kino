@@ -28,9 +28,9 @@
     box-sizing: border-box;
 }
 
-#roomCont {
+/* #roomCont {
     overflow: auto;
-}
+} */
 
 .multiline {
     white-space: pre-wrap;
@@ -54,12 +54,17 @@
 .movieCont {
     padding: 20px;
     display: flex;
+    /* height: 350px; */
 }
 
 .descCont {
     padding: 10px;
     height: 100%;
     width: 300px;
+}
+.desc {
+    max-height: 200px;
+    overflow: auto;
 }
 
 .moviePanelCont {

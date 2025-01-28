@@ -28,7 +28,7 @@ export default function MoviePanel({ id }: { id: number }) {
                     <div className="descCont">
                         <h2>{movie.title}</h2>
                         <h3>Czas trwania: {movie.runtime} minut</h3>
-                        <div className="multiline">{movie.desc}</div>
+                        <div className="multiline desc">{movie.desc}</div>
                     </div>
                 </div>
             );
